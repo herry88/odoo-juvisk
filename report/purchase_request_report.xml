@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="report_purchase_request"
+            model="purchase.requisition"
+            string="Purchase Request"
+            name="contractor.report_purchase_request_view"
+            file="contractor.report_purchase_request"
+            report_type="qweb-pdf" />
+
+        <template id="report_purchase_request_view">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <h2>Purchase Request <span t-field="o.name"/></h2>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>Purchase Request Reference:</strong><br/>
+                                    <span t-field="o.name"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Scheduled Ordering Date:</strong><br/>
+                                    <span t-field="o.ordering_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Source:</strong><br/>
+                                    <span t-field="o.origin"/>
+                                </div>
+                            </div>
+
+                            <t t-if="o.line_ids">
+                                <h3>Products</h3>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Description</strong></th>
+                                            <th class="text-right"><strong>Qty</strong></th>
+                                            <th class="text-center" groups="product.group_uom">
+                                                <strong>Product UoM</strong>
+                                            </th>
+                                            <th class="text-right"><strong>Scheduled Date</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.line_ids" t-as="line_ids">
+                                            <td>
+                                                [ <span t-field="line_ids.product_id.code"/> ]
+                                                <span t-field="line_ids.product_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line_ids.product_qty"/>
+                                            </td>
+                                            <t>
+                                                <td class="text-center" groups="product.group_uom">
+                                                    <span t-field="line_ids.product_uom_id.category_id.name"/>
+                                                </td>
+                                            </t>
+                                            <td class="text-right">
+                                                <span t-field="line_ids.schedule_date"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--approval
+                                <div class="row" style="margin-top:100px">
+
+                                    <div class="col-xs-3">
+                                        <table class="table table-condensed">
+                                            <tr>
+                                                 <td style="border:0">Created by :</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:center"><img t-attf-src="data:image/*;base64,{{o.user_id.hand_signature}}" style="width:80px;height80px"/></td>
+                                            </tr>
+                                            <tr class="border-black">
+                                                <td ><span t-field="o.user_id.name" /></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <table class="table table-condensed">
+                                            <tr>
+                                                 <td style="border:0">Validated by :</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:center"><img t-attf-src="data:image/*;base64,{{o.validate_by.hand_signature}}" style="width:80px;height80px"/></td>
+                                            </tr>
+                                            <tr class="border-black">
+                                                <td ><span t-field="o.validate_by.name" /></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>-->
+                            </t>
+
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

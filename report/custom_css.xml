@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="minimal_layout_inherit" inherit_id="report.minimal_layout">
+            <xpath expr="." position="inside" >
+                <link rel="stylesheet" href="/odoo-juvisk/static/src/css/invoice_report.css"/>
+                <link rel="stylesheet" href="/odoo-juvisk/static/src/css/sales_order.css"/>
+                <link rel="stylesheet" href="/odoo-juvisk/static/src/css/account_payment.css"/>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

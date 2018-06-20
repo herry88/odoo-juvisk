@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+          <report
+            id="report_account_payment"
+            string="Print Payment"
+            model="account.payment"
+            report_type="qweb-pdf"
+            file="odoo-juvisk/report/report_account_payment"
+            name="odoo-juvisk.report_account_payment_view" />
+
+        <template id="report_account_payment_view">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <!--<t t-call="report.external_layout">-->
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <span t-if="doc.payment_type == 'outbound'"><center><h2>BANK DISBURSEMENT</h2></center></span>
+                            <span t-if="doc.payment_type == 'inbound'"><center><h2>BANK RECEIVABLE</h2></center></span>
+                            <br /><br />
+                           <!--<center> <h2>Payment # <span t-field="doc.name"/></h2></center>-->
+                                <table id="meta-account">
+                                        <tr>
+                                            <td class="meta-head-account">Payment Date</td>
+                                            <td class="meta-head-account"><span t-field="doc.payment_date"/></td>
+                                        </tr>
+                                        <!--<tr>-->
+                                            <!--<td class="meta-head"> Payment Number</td>-->
+                                            <!--<td class="meta-head"><span t-field="doc.name"/></td>-->
+                                        <!--</tr>-->
+                                        <tr>
+                                            <td class="meta-head-account">Vendor / Customer</td>
+                                            <td class="meta-head-account"><span t-field="doc.partner_id.name"/></td>
+                                        </tr>
+
+                                        <!--<tr>-->
+                                            <!--<td class="meta-head">Bank Cash</td>-->
+                                            <!--<td class="meta-head"><span t-field="doc.journal_id.name" /></td>-->
+                                        <!--</tr>-->
+                                        <tr>
+                                            <td class="meta-head-account">Payment Transaction</td>
+                                            <td class="meta-head-account"><span t-field="doc.payment_transaction_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="meta-head-account">Journal Entry</td>
+                                            <td class="meta-head-account">
+                                                <t t-foreach="doc.move_line_ids" t-as="move_line">
+                                                    <span t-field="move_line.move_id.name" /> <br/>
+                                                </t>
+                                            </td>
+                                        </tr>
+										<!--
+										<tr>
+											<td class="meta-head">Payment Amount</td>
+											<td class="meta-head"><span t-field="doc.amount"/></td>
+										</tr>-->
+                                </table>
+                            <!--inherit supplier-->
+                               <t t-set="i" t-value="1" />
+                                <!--<span t-field="doc.invoice_ids.id"/>-->
+                                <table id="meta-1-account">
+                                    <!--<tr>-->
+                                        <!--<td>ID Invoice</td>-->
+                                        <!--<td><strong><span t-field="doc.invoice_ids.id" /></strong></td>-->
+                                    <!--</tr>-->
+                                    <!--<tr t-foreach="doc.invoice_ids.invoice_line_ids" t-as="line">-->
+                                        <!--<td>Product</td>-->
+                                        <!--<td><strong><span t-field="line.product_id.name"/></strong></td>-->
+                                        <!--<td><strong><span t-field="line.name"/></strong></td>-->
+                                    <!--</tr>-->
+                                    <tr>
+                                        <th class="meta-head-1" width="4px">No.</th>
+
+                                        <th class="meta-head-1">Payment Number</th>
+                                        <th class="meta-head-1" width="30%">Product</th>
+                                        <th class="meta-head-1" width="70%">Description</th>
+                                        <th class="meta-head-1">Sub Total</th>
+
+                                    </tr>
+                                    <tr t-foreach="doc.invoice_ids.invoice_line_ids" t-as="line">
+                                        <td class="meta-head-1"><span t-esc="i"/>
+                                              <t t-set="i" t-value="i+1"/></td>
+                                        <td class="meta-head-1"><span t-field="doc.name"/></td>
+                                        <td class="meta-head-1" ><span t-field="line.product_id.name"/></td>
+                                        <td class="meta-head-1"><span t-field="line.name"/></td>
+
+                                        <td class="meta-head-1" colspan="2"><span t-field="doc.amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                    </tr>
+                                    <!--<tr>-->
+                                        <!--<td class="meta-head-1" colspan="4" rowspan="3"><b></b>-->
+                                        <!--&lt;!&ndash;<span t-esc="doc.amount_to_text(line2.amount_untaxed, doc.currency_id)"/><&ndash;&gt;</td>-->
+                                        <!--<td class="meta-head-1" colpan="3">Subtotal</td>-->
+                                        <!--<td class="meta-head-1"><span t-field="doc.amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>-->
+
+                                    <!--</tr>-->
+
+
+                                </table>
+
+                            <!--<p>Says : <span t-esc="doc.amount_to_text(doc.amount_total, doc.currency_id)"/></p>-->
+
+                                <table id="meta-3">
+                                    <tr>
+                                        <td class="meta-head-3">
+                                            <t t-set="is_first" t-value="True"/>
+                                            <t t-foreach="doc.company_id.bank_journal_ids" t-as="journal">
+                                                <t t-set="bank_acc" t-value="journal.bank_account_id"/>
+                                                   <t t-if="journal.display_on_footer">
+                                                        <span><b>Payment Details :</b></span><br/>
+                                                        <span t-esc="bank_acc.bank_name"/><t t-if="bank_acc.bank_bic"> (<span t-esc="bank_acc.bank_bic"/>)</t>: <span t-esc="bank_acc.acc_number"/><br/>
+                                                        <span>A/N : PT Prasetia Juvisk Sinergi</span>
+                                                    </t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            <table id="meta-2">
+                                <tr>
+                                    <td class="meta-head-2">Created By</td>
+                                    <td class="meta-head-2">Examined By</td>
+                                    <td class="meta-head-2">Approved</td>
+                                    <td class="meta-head-2">Director of finance</td>
+                                    <td class="meta-head-2">President Director</td>
+                                </tr>
+                                <tr>
+                                    <td   class="meta-head-2" width="150" height="150px"></td>
+                                    <td   class="meta-head-2" width="150" height="150px"></td>
+                                    <td   class="meta-head-2" width="150" height="150px"></td>
+                                    <td   class="meta-head-2" width="150" height="150px"></td>
+                                    <td   class="meta-head-2" width="150" height="150px"></td>
+                                </tr>
+
+                                <tr >
+                                    <td class="meta-head-2 " ><span t-field="doc.write_uid.name" /></td>
+                                    <td class="meta-head-2 " ></td>
+                                    <td class="meta-head-2 " ></td>
+                                    <td class="meta-head-2"></td>
+                                    <td class="meta-head-2 " ></td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+                    <!--</t>-->
+                </t>
+            </t>
+
+            <!--<t t-foreach="docs.invoice_ids" t-as="o">-->
+                    <!--<span t-field="o.number" />-->
+            <!--</t>-->
+        </template>
+
+
+    </data>
+</odoo>

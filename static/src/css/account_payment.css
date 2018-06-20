@@ -1,0 +1,110 @@
+.invoice_address{
+    font-family:  sans-serif;
+    font-weight:100;
+    color:#000;
+    height: 150px;
+    float: left;
+}
+
+
+.invoice_title{
+    font-family: sans-serif;
+    font-weight:100;
+    color:blue;
+}
+
+/*table { border-collapse: collapse; }
+table td, table th { border: 1px solid black; padding: 5px; }
+*/
+h2{
+   font-family:Lucida Sans Unicode;
+}
+
+#tabelku{
+    margin-top: 1px;
+    width: 300px;
+    float: left;
+}
+
+#tabelku td,  {
+    text-align: left;
+}
+
+#tabelku td.tabelku-head {
+    text-align: left;
+    background: #80dfff;
+    font-color: #fff;
+}
+
+
+
+#meta-account{
+    margin-top: 1px;
+    width: 300px;
+    float: left;
+}
+
+#meta-1-account{
+    margin-top: 15px;
+    float: right;
+}
+
+#meta-1-account,th.meta-head-1, td.meta-head-1 {
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+}
+
+#meta-2{
+    margin-top: 100px;
+    border: 1px solid black;
+    float: right;
+}
+
+#meta-3{
+    margin-top: 30px;
+    float: left;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+#meta-3, td.meta-head-3 {
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+
+}
+
+#meta-2, td.meta-head-2 {
+    text-align: center;
+    background: #fff;
+    border: 1px solid black;
+	padding : 3px;
+
+}
+
+#meta-account td th {
+    text-align: right;
+}
+
+#meta-account td.meta-head-account {
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+	border-collapse : collapse;
+}
+
+#meta-account td{
+    width: auto;
+    height: 20px;
+    text-align: right;
+}
+
+.meta-1 th{
+    width : 5px;
+    text-align: left;
+}
+

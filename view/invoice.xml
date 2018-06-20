@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="invoice_inherit_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="sign_by"/>
+                </xpath>
+
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                        <field name="no_faktur" />
+                </xpath>
+
+                <xpath expr="//field[@name='date_invoice']" position="after">
+                        <field name="date_due" />
+                </xpath>
+
+                <!--<xpath expr="//field[@name='no_faktur']" position="after">-->
+                        <!--<field name="po_id" string="PO Number" />-->
+                <!--</xpath>-->
+
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
+                        <field name="deduction"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="invoice_tree" model="ir.ui.view">
+            <field name="name">my.module.name.account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <field name="date_invoice" position="after">
+                    <field name="po_id" string="PO Number" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

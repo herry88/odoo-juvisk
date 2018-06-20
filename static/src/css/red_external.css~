@@ -1,0 +1,3 @@
+div.redclass {
+		background-color: blue;color:white;
+	}

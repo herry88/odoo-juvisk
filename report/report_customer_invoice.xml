@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="report_customer_invoice"
+            string="Customer Invoice"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            file="odoo-juvisk/report/report_customer_invoice"
+            name="odoo-juvisk.report_customer_invoice_view" />
+
+        <template id="report_customer_invoice_view">
+
+            <t t-call="report.html_container">
+                
+                <t t-foreach="docs" t-as="doc">
+                    <div class="oe_structure"/>
+                    <div class="page">
+                      
+                        <div class="col-xs-5" >
+                            <div name="invoice_address" class="invoice_address">
+                                <span><b>Bill To :</b></span>
+                                <address t-field="doc.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                                <span t-if="doc.partner_id.vat">TIN: <span t-field="doc.partner_id.vat"/></span>
+
+                            </div>
+                        </div>
+
+
+                        <table id="meta" >
+                            <tr>
+                                <td class="meta-head"><b>Invoice Number</b></td>
+
+                                <td class="meta-head"><span t-field="doc.number"/></td>
+                            </tr>
+                            <tr>
+                                <td class="meta-head"><b>Date</b></td>
+
+                                <td class="meta-head"><span  t-field="doc.date_invoice"/></td>
+
+                            </tr>
+                            <tr>
+                                <td class="meta-head"><b>Due Date</b>
+                                </td>
+
+                                <td class="meta-head"><span t-field="doc.date_due"/></td>
+                            </tr>
+                            <tr>
+                                <td class="meta-head"><b>No.Faktur</b></td>
+
+                                <td class="meta-head"><span t-field="doc.no_faktur" /></td>
+                            </tr>
+                        </table>
+
+                           <t t-set="i" t-value="1" />
+                           <table  id="meta-1" >
+                                <tr>
+                                    <th class="meta-head-1" width="4px">No.</th>
+                                    <th class="meta-head-1" width="70%">Description</th>
+                                    <th class="meta-head-1">PO Number</th>
+                                    <th class="meta-head-1">Qty</th>
+                                    <th class="meta-head-1">Unit Price</th>
+                                    <th class="meta-head-1" t-if="display_discount"  >Disc.(%)</th>
+                                    <th class="meta-head-1">Line Total</th>
+                                </tr>
+                                <tr  t-foreach="doc.invoice_line_ids" t-as="line" class="border-black">
+                                    <td class="meta-head-1">
+                                        <span t-esc="i"/>
+                                              <t t-set="i" t-value="i+1"/>
+                                    </td>
+                                    <td class="meta-head-1"><span t-field="line.name"/></td>
+                                    <!-- <td class="meta-head-1"><span t-field="doc.name"/></td> -->
+                                    <td class="meta-head-1" width="30%"><span t-field="line.sale_line_ids.order_id.client_order_ref"/></td>
+                                    <td class="meta-head-1"><span t-field="line.quantity"/>
+                                            <span t-field="line.uom_id"  groups="product.group_uom"/></td>
+                                    <td class="meta-head-1"><span t-field="line.price_unit"/></td>
+                                    <td t-if="display_discount" class="meta-head-1"><span t-field="line.discount"/></td>
+                                    <td class="meta-head-1"><span t-field="line.price_subtotal"
+                                                t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td  colspan="2" rowspan="4" class="meta-head-1"><strong>Says :</strong>
+                                <i><span t-esc="doc.amount_to_text(doc.amount_total, doc.currency_id)"/> </i></td>
+                                    <td colspan="3" class="meta-head-1"><b>Sub Total</b></td>
+                                    <td class="meta-head-1"><span t-field="doc.amount_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                </tr>
+
+                                <t t-foreach="doc._get_tax_amount_by_group()" t-as="amount_aja">
+                                   <tr>
+
+                                        <td colspan="3" class="meta-head-1"><span t-esc="amount_aja[0] if len(doc.tax_line_ids) > 1 else (doc.tax_line_ids.tax_id.description or doc.tax_line_ids.tax_id.name)" /></td>
+                                        <td class="meta-head-1">
+                                                        <span t-esc="amount_aja[1]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+								<!--<t t-if="line.deduction">-->
+                                   <!--<tr>-->
+                                       <!--<td colspan="3" class="meta-head-1" ><strong>Deduction</strong></td>-->
+                                       <!--<td class="meta-head-1"  ><span t-field="line.deduction" t-options='{"widget": "monetary", "display_currency": doc.currency_id}' /></td>-->
+                                   <!--</tr>-->
+                               <!--</t>-->
+                               <tr>
+
+                                    <td colspan="3" class="meta-head-1"><strong>Total</strong></td>
+                                    <td class="meta-head-1">
+                                        <span t-field="doc.amount_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                           </table>
+                           <!--<div class="row" style="margin-top:100px">-->
+                                <!--<div class="col-xs-8">-->
+                                <table id="meta-3">
+                                    <tr>
+                                        <td class="meta-head-3">
+                                            <t t-set="is_first" t-value="True"/>
+                                            <t t-foreach="doc.company_id.bank_journal_ids" t-as="journal">
+                                                <t t-set="bank_acc" t-value="journal.bank_account_id"/>
+                                                   <t t-if="journal.display_on_footer">
+                                                        <span><b>Payment Details :</b></span><br/>
+                                                        <span t-esc="bank_acc.bank_name"/><t t-if="bank_acc.bank_bic"> (<span t-esc="bank_acc.bank_bic"/>)</t>: <span t-esc="bank_acc.acc_number"/><br/>
+                                                        <span>A/N : PT Prasetia Juvisk Sinergi</span>
+                                                    </t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!--</div>-->
+                            <!--</div>-->
+
+                             <table id="meta-2-account">
+                                 <tr>
+                                    <td >Jakarta, <span t-field="doc.date_invoice" t-field-options='{"format": "d MMMM y"}'/></td>
+                                 </tr>
+                                 <tr>
+                                   <td  style="border:none" height="150px"></td>
+                                 </tr>
+                                 <tr>
+                                   <td class="meta-head-2-account"><span t-field="doc.sign_by.name" /></td>
+                                 </tr>
+                                 <tr >
+                                   <td class="meta-head-2-account"><span t-field="doc.sign_employee_id.job_id.name" /></td>
+                                 </tr>
+                             </table>
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

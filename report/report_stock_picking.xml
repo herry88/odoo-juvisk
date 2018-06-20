@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+        <record id="report.paperformat_euro" model="report.paperformat">
+                 <field name="margin_top">80</field>
+                 <field name="margin_bottom">40</field>
+                 <field name="margin_left">7</field>
+                 <field name="margin_right">7</field>
+                 <field name="header_spacing">45</field>
+        </record>
+        <template id="report_inshepment_inherit" inherit_id="stock.report_picking">
+
+                <xpath expr="//h1[@class='mt0']" position="replace">
+                    <h2>
+                        <span >Incoming Shipment</span>
+                         <span>#</span>
+                        <span t-field="o.name"/>
+                    </h2><br />
+                </xpath>
+
+                <xpath expr="//table[@class='table table-condensed']/thead/tr" position="inside">
+
+                        <th>Vendor Reference</th>
+               </xpath>
+               <xpath expr="//table[@class='table table-condensed']/tbody/tr" position="inside">
+                   <td ><span t-field="o.partner_ref" /></td>
+               </xpath>
+
+                <!-- Add Column on report -->
+               <xpath expr="//table[@class='table table-condensed'][2]/thead/tr" position="inside">
+
+                        <th>Actual Received</th>
+                        <th>Note</th>
+
+               </xpath>
+                <xpath expr="//table[@class='table table-condensed'][2]/tbody/tr" position="inside">
+
+                    <td />
+
+                     <td />
+
+                </xpath>
+
+                <xpath expr="//table[@class='table table-condensed'][2]" position="after">
+                    <div class="col-xs-3">
+                        <table class="table table-condensed">
+                                <tr>
+                                    <td  ></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none" height="90px">Consignee</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td >PT. Prasetia Juvisk Sinergi</td>
+                                </tr>
+                        </table>
+                    </div>
+                </xpath>
+
+                <xpath expr="//table[@class='table table-condensed'][2]" position="after">
+                           <div class="col-xs-3">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td  ></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none" height="90px">Shipper</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td ><span t-field="o.partner_id" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,113 @@
+.invoice_address{
+    font-family:  sans-serif;
+    font-weight:100;
+    color:#000;
+    height: 150px;
+    float: left;
+}
+
+
+.invoice_title{
+    font-family: sans-serif;
+    font-weight:100;
+    color:blue;
+}
+
+/*table { border-collapse: collapse; }
+table td, table th { border: 1px solid black; padding: 5px; }
+*/
+
+#tabelku{
+    margin-top: 1px;
+    width: 300px;
+    float: left;
+}
+
+#tabelku td,  {
+    text-align: left;
+}
+
+#tabelku td.tabelku-head {
+    text-align: left;
+    background: #80dfff;
+    font-color: #fff;
+}
+
+
+
+#meta{
+    margin-top: 1px;
+    width: 300px;
+    float: right;
+}
+
+#meta-1{
+    margin-top: 1px;
+    float: right;
+}
+
+#meta-1,th.meta-head-1, td.meta-head-1 {
+
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+
+}
+
+#meta-2-account{
+    margin-top: 100px;
+    float: right;
+}
+
+#meta-3{
+    margin-top: 100px;
+    float: left;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+#meta-3, td.meta-head-3 {
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+
+}
+
+#meta-2, td.meta-head-2-account {
+    text-align: center;
+    background: #fff;
+	padding : 3px;
+
+}
+
+#meta td th {
+    text-align: right;
+}
+
+#meta td.meta-head {
+    text-align: left;
+    background: #fff;
+	border: 1px solid black;
+	padding : 5px;
+	border-collapse : collapse;
+}
+
+#meta td{
+    width: auto;
+    height: 20px;
+    text-align: right;
+}
+
+.meta-1 th{
+    width : 5px;
+    text-align: left;
+}
+
+
+
+
+
+
+

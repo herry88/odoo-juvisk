@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="picking_report_new"
+            string="Picking Print Juvisk"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            file="odoo-juvisk/report/picking_report_new"
+            name="odoo-juvisk.picking_report_new_view" />
+
+        <template id="picking_report_new">
+            <t call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="oe_structure" />
+                        <div class="page">
+                            <br />
+                            <div class="col-xs-6">
+                                <h1>Hello</h1>
+                            </div>
+                        </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

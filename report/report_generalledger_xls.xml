@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="report_generalledger_xls"
+            model="account.journal"
+            string=" "
+            report_type="xlsx"
+            name="odoo-juvisk.report.generalledger.xlsx"
+            file="odoo-juvisk.report.generalledger.xlsx"
+            attachment_use="False"/>
+    </data>
+</odoo>

@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+        <!--inherit stok delivery slip-->
+        <template id="report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+
+                <xpath expr="//div[@class='row']" position="before">
+                    <table class="col-xs-3">
+                        <tr>
+                            <td  style="border:0 width:200px">Date</td>
+                            <td>:</td>
+                            <td><span t-field="o.min_date"/></td>
+                        </tr>
+                        <td style="border:0 width:200px">No </td>
+                        <td>:</td>
+                        <td><span t-field="o.name"/></td>
+                    </table>
+                </xpath>
+
+                <xpath expr="//h2" position="replace">
+                    <h2>
+                        <span >Delivery Order</span>
+                         <span>#</span>
+                        <span t-field="o.name"/>
+                    </h2><br />
+                </xpath>
+
+
+
+                <xpath expr="//p[@t-if='o.backorder_id']" position="after">
+                    <div class="row" style="margin-top:100px">
+
+                        <div class="col-xs-3">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td style="border:none text-align:center">Jakarta, <span t-field="o.min_date" t-field-options='{"format": "d MMMM y"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none" height="80px">Supplier</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td ><span t-field="o.partner_id" /></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-xs-3">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td style="border:none text-align:center" ></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none" height="90px">Mengetahui</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td ></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-xs-3">
+                            <table class="table table-condensed">
+                                 <tr>
+                                    <td style="border:none text-align:center" ></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none" height="90px">Logistik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none"></td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td ></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </xpath>
+
+                 <!-- Add Column on report -->
+               <xpath expr="//table[@class='table table-condensed mt48']/thead/tr" position="inside">
+
+                        <th>Actual Received</th>
+                        <th>Note</th>
+               </xpath>
+                <xpath expr="//table[@class='table table-condensed mt48']/tbody/tr" position="inside">
+
+                    <td />
+
+                     <td />
+
+                </xpath>
+        </template>
+    </data>
+</odoo>

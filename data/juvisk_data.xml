@@ -1,0 +1,30 @@
+<odoo>
+    <data noupdate="1">
+        <record id="seq_purchase_order_spk" model="ir.sequence">
+            <field name="name">Purchase Order SPK Sequence</field>
+            <field name="code">purchase.order.spk</field>
+            <field name="prefix">SPK%(y)s%(month)s </field>
+            <field eval="4" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="seq_purchase_order" model="ir.sequence">
+            <field name="name">Purchase Order Sequence</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">PO%(y)s%(month)s </field>
+            <field eval="4" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+		<record id="seq_pd_temp_value" model="ir.sequence">
+            <field name="name">Temporary Value Sequence</field>
+            <field name="code">temp.value</field>
+            <field name="suffix">/TEMP/</field>
+            <field eval="10" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+    </data>
+</odoo>

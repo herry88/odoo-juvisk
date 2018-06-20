@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="stock_picking_operations"
+            string="Print Stock Picking Operations"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            file="odoo-juvisk/report/stock_picking_report"
+            name="odoo-juvisk.stock_picking_operation_view" />
+
+        <template id="stock_picking_operation_view">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="col-xs-6">
+                            <div t-if="doc.move_lines and doc.move_lines[0].partner_id and doc.move_lines[0].partner_id.id != doc.partner_id.id">
+                                <span><strong>Delivery Address:</strong></span>
+                                <div t-field="doc.move_lines[0].partner_id"
+                                     t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": True}'/>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
