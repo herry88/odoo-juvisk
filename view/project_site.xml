@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+
+        <!--<record model="ir.ui.view" id="view_site_form">-->
+            <!--<field name="name">project.site.form</field>-->
+            <!--<field name="model">project.site</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="area_id" />-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record model="ir.actions.act_window" id="project_action">
+              <field name="name">Project</field>
+              <field name="model">project.site</field>
+              <field name="view_type">form</field>
+              <field name="view_mode">tree,form</field>
+              <field name="help" type="html">
+                  <p class="oe_view_nocontent_create">Create Your First Project ...</p>
+              </field>
+        </record>
+
+
+         <!--<record id="view_site_form" model="ir.actions.act_window.view">-->
+             <!--<field eval="2" name="sequence"/>-->
+             <!--<field name="view_mode">form</field>-->
+             <!--<field name="act_window_id" ref="project_action"/>-->
+         <!--</record>-->
+
+        <record id="action_project_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="project_action"/>
+        </record>
+
+        <record id="project_view_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_purchase_receipt_form"/>
+            <field name="act_window_id" ref="project_action"/>
+        </record>
+
+        <menuitem id="project_site_menu"  action="project_action" parent="project.menu_project_config"/>
+    </data>
+</odoo>

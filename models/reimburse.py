@@ -25,7 +25,7 @@ class Reimbursement(models.Model):
         return self.env['account.journal'].search(domain, limit=1)
 
     amount_to_text = fields.Text(string='In Words',
-                                 store=True, readonly=True, compute='_amount_in_words')
+                                 store=True, readonly=True)
     type_transaction = fields.Selection([
         ('reimburse', 'Reimburse'),
     ], readonly=True, index=True, change_default=True,
