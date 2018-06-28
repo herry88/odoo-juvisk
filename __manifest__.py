@@ -30,6 +30,7 @@
         'report/account_move.xml',
         'report/account_payment.xml',
 		'report/report_customer_invoice.xml',
+        'report/vendor_bills_report.xml',
         'report/report_deliveryslip.xml',
 		'report/report_stock_picking.xml',
 		'report/custom_css.xml',
