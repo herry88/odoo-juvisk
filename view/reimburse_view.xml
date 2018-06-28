@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--  Reimbursement -->
+    <record id="view_reimburse_filter" model="ir.ui.view">
+            <field name="name">account.voucher.reimburse.select</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <search string="Search Vouchers">
+                    <field name="number" string="Voucher"/>
+                    <field name="date"/>
+                    <filter string="Draft" domain="[('state','=','draft')]" help="Draft Vouchers"/>
+                    <filter string="Posted" domain="[('state','=','posted')]" help="Posted Vouchers"/>
+                    <field name="partner_id" string="Vendor" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="journal_id" widget="selection" context="{'journal_id': self, 'set_visible':False}" domain="[('type','=','purchase')]"/> <!-- Keep widget=selection on this field to pass numeric `self` value, which is not the case for regular m2o widgets! -->
+                    <group expand="0" string="Group By">
+                        <filter string="Vendor" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Journal" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Bill Date" domain="[]" context="{'group_by':'date','visible':True}"/>
+                        <filter string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    <record model="ir.ui.view" id="view_reimburse_tree">
+        <field name="name">account.voucher.reimburse.tree</field>
+        <field name="model">account.voucher</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Voucher Entries">
+                <field name="date"/>
+                <field name="number"/>
+                <field name="reference"/>
+                <field name="partner_id" string="Vendor"/>
+                <field name="voucher_type" invisible="context.get('visible', True)"/>
+                <field name="amount" sum="Total Amount"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_reimburse_form">
+        <field name="name">account.voucher.reimburse.form</field>
+        <field name="model">account.voucher</field>
+        <field name="arch" type="xml">
+            <form string="Reimbursement">
+            <header>
+                <button name="confirm_voucher" string="Confirm" states="draft" class="oe_highlight" type="object"/>
+                <button name="validate_voucher" string="Validate" states="confirm" class="oe_highlight" type="object"/>
+                <button name="proforma_voucher" string="Payment" states="validate" class="oe_highlight" type="object"/>
+                <button name="cancel_voucher" string="Cancel" type="object" states="draft,confirm,validate,proforma" />
+                <button name="cancel_voucher" string="Cancel" type="object" states="posted" confirm="Are you sure you want to cancel this receipt?"/>
+                <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,posted"/>
+            </header>
+            <sheet string="Vendor Voucher">
+                <label for="number" string="Reimburse"/>
+                <h1>
+                    <field name="number" readonly="1"/>
+                </h1>
+                <field name="voucher_type" invisible="True"/>
+                <group>
+                    <group>
+                        <field name="partner_id" domain="[('supplier','=',True)]" string="Vendor" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}" />
+                        <field name="pay_now" required="1" invisible="True"/>
+                        <field name="account_id" invisible="True"/>
+                        <field name="name" colspan="2" attrs="{'invisible': [('pay_now', '=', 'pay_later')]}"/>
+                        <field name="reference"/>
+                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="date" string="Bill Date"/>
+                        <field name="date_due" string="Due Date"/>
+                        <field name="paid" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="journal_id"
+                            domain="[('type','=','bank')]"
+                            widget="selection"
+                            groups="account.group_account_user"
+                            attrs="{'invisible': [('state','in',('draft','confirm'))]}"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Bill Information">
+                        <field name="line_ids">
+                            <tree string="Voucher Lines" editable="bottom">
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="account_id"/>
+                                <field name="account_analytic_id" domain="[('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                                <field name="quantity"/>
+                                <field name="price_unit"/>
+                                <field name="tax_ids" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]"/>
+                                <field name="price_subtotal"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="tax_amount"/>
+                                <field name="tax_correction" attrs="{'invisible': [('tax_amount','=',0)]}"/>
+                                <field name="amount"/>
+                            </group>
+                            <field name="narration" placeholder="Internal Notes" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page string="Journal Items">
+                        <group>
+                            <field name="account_date"/>
+                            <field name="move_id" readonly="1"/>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_reimburse" model="ir.actions.act_window">
+        <field name="name">Reimbursement</field>
+        <field name="res_model">account.voucher</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban</field>
+        <field name="domain">[('journal_id.type','=','bank'), ('voucher_type','=','purchase'), ('type_transaction', '=', 'reimburse')]</field>
+        <field name="context">{'default_voucher_type': 'purchase', 'voucher_type': 'bank', 'default_type_transaction': 'reimburse', 'default_pay_now': 'pay_now'}</field>
+        <field name="view_id" eval="view_reimburse_tree"/>
+        <field name="search_view_id" eval="view_reimburse_filter"/>
+        <field name="target">current</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to register a reimburse.
+          </p><p>
+            When the reimburse is confirmed, you can record the
+            vendor payment related to this purchase receipt.
+          </p>
+        </field>
+    </record>
+    <record id="action_reimburse_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_reimburse_tree"/>
+        <field name="act_window_id" ref="action_reimburse"/>
+    </record>
+    <record id="action_reimburse_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_reimburse_form"/>
+        <field name="act_window_id" ref="action_reimburse"/>
+    </record>
+
+    <!--<menuitem id="menu_remburse" name="Reimbursement" parent="base.menu_payment_request_root" sequence="2"/>-->
+    <!--<menuitem action="action_reimburse" id="menu_reimburse_action" name="Reimbursement" parent="menu_remburse" sequence="22"/>-->
+    <!--<menuitem action="action_reimburse" id="menu_reinburse" parent="account.menu_finance_payables" sequence="4"/>-->
+    <menuitem name="Payment Request" icon="terp-project" id="payment_request_menu" sequence="111" />
+    <menuitem name="Reimburse" parent="payment_request_menu" id="reimburse_menu" sequence="0"/>
+    <menuitem id="reimburse" name="Reimburse" parent="reimburse_menu" action="action_reimburse"/>
+</odoo>

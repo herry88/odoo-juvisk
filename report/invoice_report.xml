@@ -5,7 +5,7 @@
         <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
             <xpath expr="//h2" position="replace">
                 <h2>
-                  
+
                     <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                     <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
                     <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
@@ -18,37 +18,63 @@
             </xpath>
 
             <xpath expr="//p[@t-if='o.comment']" position="after">
-                <div class="col-xs-3">
-                        <table class="table table-condensed">
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none" height="90px">Dibuat Oleh</td>
-                                </tr>
+                <div class="row" style="margin-top:0px">
+                        <div class="col-xs-3">
 
-                                <tr>
-                                    <td style="border:none"></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none"></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none"></td>
-                                </tr>
-                                <tr class="border-black">
-                                    <td ><span t-field="o.user_id.name" /></td>
-                                </tr>
-                        </table>
-                </div>
-				
-				<div class="col-xs-3">
+                        </div>
+                        <div class="col-xs-3">
+                                <table class="table table-condensed">
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none" height="150px">Created</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr class="border-black">
+                                            <td ><span t-field="o.create_uid.name" /></td>
+                                        </tr>
+                                </table>
+                        </div>
+                        <div class="col-xs-3">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <td  ></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none" height="150px">Approve </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none"></td>
+                                        </tr>
+                                        <tr class="border-black">
+                                            <td ></td>
+                                        </tr>
+                                    </table>
+                        </div>
+                        <div class="col-xs-3">
                             <table class="table table-condensed">
                                 <tr>
                                     <td  ></td>
                                 </tr>
                                 <tr>
-                                    <td style="border:none" height="90px">Menyetujui</td>
+                                    <td style="border:none" height="150px">Be Examined</td>
                                 </tr>
 
                                 <tr>
@@ -64,34 +90,9 @@
                                     <td ></td>
                                 </tr>
                             </table>
-                </div>
-				
-				<div class="col-xs-3">
-                    <table class="table table-condensed">
-                        <tr>
-                            <td  ></td>
-                        </tr>
-                        <tr>
-                            <td style="border:none" height="90px">DiPeriksa</td>
-                        </tr>
-
-                        <tr>
-                            <td style="border:none"></td>
-                        </tr>
-                        <tr>
-                            <td style="border:none"></td>
-                        </tr>
-                        <tr>
-                            <td style="border:none"></td>
-                        </tr>
-                        <tr class="border-black">
-                            <td ></td>
-                        </tr>
-                    </table>
+                        </div>
                 </div>
             </xpath>
         </template>
-
-
     </data>
 </odoo>

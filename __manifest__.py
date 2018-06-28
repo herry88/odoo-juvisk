@@ -25,7 +25,7 @@
     'data': [
         'report/purchase_report.xml',
         'report/purchase_request_report.xml',
-        # 'report/invoice_report.xml',
+        'report/invoice_report.xml',
         'report/stock_picking_report.xml',
         'report/account_move.xml',
         'report/account_payment.xml',
@@ -39,9 +39,12 @@
         'view/invoice.xml',
 		'view/sale_view.xml',
         'view/account_view.xml',
+        'view/reimburse_view.xml',
 		# 'wizard/account_report_general_ledger_view.xml',
 		# 'report/report_generalledger_xls.xml',
-        'data/juvisk_data.xml'
+        'data/juvisk_data.xml',
+        'data/reimburse_data.xml',
+        'data/equipment_data.xml'
     ],
 	#'css' : ['static/src/css/invoice_report.css'],
     # only loaded in demonstration mode
