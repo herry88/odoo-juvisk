@@ -25,13 +25,13 @@ class Reimbursement(models.Model):
         return self.env['account.journal'].search(domain, limit=1)
 
     amount_to_text = fields.Text(string='In Words',
-                                 store=True, readonly=True)
+                                 store=True, readonly=True, compute='_amount_in_words')
     type_transaction = fields.Selection([
         ('reimburse', 'Reimburse'),
     ], readonly=True, index=True, change_default=True,
         default=lambda self: self._context.get('type_transaction', 'voucher'),
         track_visibility='always')
-
+    # state = fields.Selection(selection_add=[('confirm', 'Confirmed'),('validate', 'Validate')])
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirm', 'Wait Approval Manager'),

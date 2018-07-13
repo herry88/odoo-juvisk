@@ -10,9 +10,8 @@
                  <!--</field>-->
             <!--</field>-->
         <!--</record>-->
-
         <record id="project_inherit_form" model="ir.ui.view">
-            <field name="name">project.form.inherit</field>
+            <field name="name">project.form.inherit.project</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
@@ -32,7 +31,7 @@
                                          <sheet>
                                              <group>
                                                  <group>
-                                                      <field name="equipment_id" domain="[('use_in_project', '=', 0)]"/>
+                                                      <field name="equipment_id" domain="[('use_in_project', '=', 0)]"/> <!-- jika status confirmed maka tidak tampil  -->
                                                  </group>
                                              </group>
                                                 <notebook>
@@ -61,6 +60,11 @@
                             </div>
                         </group>
                     </page>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]/group/field[@name='partner_id']" position="after">
+                    <field name="site_id_customer"/>
+                    <field name="site_name_owner"/>
+                    <field name="area_project"/>
                 </xpath>
             </field>
         </record>

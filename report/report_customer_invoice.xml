@@ -13,6 +13,7 @@
         <template id="report_customer_invoice_view">
 
             <t t-call="report.html_container">
+                
                 <t t-foreach="docs" t-as="doc">
                     <div class="oe_structure"/>
                     <div class="page">

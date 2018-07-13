@@ -25,7 +25,7 @@ class Invoice(models.Model):
         convert_amount_in_words = amount_to_text_en.amount_to_text(amount, lang='en', currency='')
         convert_amount_in_words = convert_amount_in_words.replace(' and Zero', ' ')
         convert_amount_in_words = convert_amount_in_words.replace(',', ' ')
-        # convert_amount_in_words = convert_amount_in_words + 'Rupiah'
+        convert_amount_in_words = convert_amount_in_words + ' Rupiah'
         return convert_amount_in_words
 
     @api.one

@@ -15,4 +15,4 @@ class PickingSlip (models.Model):
         purchase_order_data = self.env['purchase.order'].search([('name','=',self.origin)])
         for data in purchase_order_data:
             self.partner_ref = data.partner_ref
-            print data
+            # print data

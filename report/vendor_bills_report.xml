@@ -138,7 +138,8 @@
                                 <tr>
                                     <td class="meta-head-2 " ><span t-field="doc.create_uid.name" /></td>
                                     <td class="meta-head-2 " ></td>
-                                    <td class="meta-head-2 " ><span t-field="doc.user_id.name" /></td>
+                                    <!-- <td class="meta-head-2 " ><span t-field="doc.user_id.name" /></td> -->
+                                    <td class="meta-head-2 " ><span t-field="doc.sign_by.name" /></td>
                                 </tr>
                             </table>
                     </div>

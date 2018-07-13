@@ -4,11 +4,11 @@ from odoo.tools import amount_to_text_en
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('temp.value') or '/'
-        return super(PurchaseOrder, self).create(vals)
+    #@api.model
+    #def create(self, vals):
+    #    if vals.get('name', 'New') == 'New':
+    #        vals['name'] = self.env['ir.sequence'].next_by_code('temp.value') or '/'
+    #    return super(PurchaseOrder, self).create(vals)
 
     @api.multi
     def amount_to_text(self, amount, currency):

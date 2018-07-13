@@ -1,16 +1,19 @@
 <odoo>
     <data>
-
         <record id="equipment_view_inherit_form" model="ir.ui.view">
             <field name="name">equipment.form.inherit</field>
             <field name="model">maintenance.equipment</field>
             <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
             <field name="arch" type="xml">
                 <field name="location" position="after">
-                    <field name="use_in_project" />
-                    <field name="in_use"/>
+                    <field name="use_in_project"/>
                 </field>
-
+                <!--<field name="owner_user_id" position="after">-->
+                    <!--<field name="site_id_customer"/>-->
+                <!--</field>-->
+                <!--<field name="category_id" position="after">-->
+                     <!--<field name="site_name_owner"/>-->
+                <!--</field>-->
                 <xpath expr="//page[2]" position="after">
                     <page string="Equipment Rent">
                         <group>
@@ -58,15 +61,31 @@
                 </xpath>
             </field>
         </record>
-        <record id="equipment_view_tree_inherit" model="ir.ui.view">
-            <field name="name">equipment.use.tree.inherit</field>
+
+        <record id="equipment_maintenance_tree" model="ir.ui.view">
+            <field name="name">maintenance.inherit.tree</field>
             <field name="model">maintenance.equipment</field>
             <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
             <field name="arch" type="xml">
-                <field name="category_id" position="after">
+                <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="in_use"/>
-                </field>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="project_area"/>
+                </xpath>
+                <xpath expr="//field[@name='serial_no']" position="after">
+                     <field name="site_reference"/>
+                    <field name="site_area"/>
+
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="site_owner_name"/>
+                </xpath>
+                <!--<xpath expr="//field[@name='partner_id']" position="after">-->
+                    <!--<field name="site_area"/>-->
+                <!--</xpath>-->
             </field>
         </record>
+
     </data>
 </odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="stock_picking_operations"
+                string="Print Equipment"
+                model="maintenance.equipment"
+                report_type="qweb-pdf"
+                file="odoo-juvisk/report/maintenance_report"
+                name="odoo-juvisk.maintenance_report_view"/>
+
+        <template id="maintenance_report_view">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
