@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="site_list_action">
+            <field name="name">Site</field>
+            <field name="res_model">project.site</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first site</p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="site_form_view">
+            <field name="name">site.form</field>
+            <field name="model">project.site</field>
+            <field name="arch" type="xml">
+                <form string="Site Form">
+                    <group>
+                        <field name="site_id"/>
+                        <field name="name"/>
+                        <field name="alias"/>
+                        <field name="tower_type_id"/>
+                    </group>
+                    <group>
+                        <field name="address"/>
+                        <field name="area_id"/>
+                        <field name="region_id"/>
+                        <field name="type_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Site"
+            id="site_menu"
+            parent="menu_project_list"
+            action="site_list_action"/>
+
+        <record model="ir.actions.act_window" id="site_tower_type_action">
+            <field name="name">Tower Type</field>
+            <field name="res_model">project.tower.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Tower Type</p>
+            </field>
+        </record>
+
+        <menuitem name="Tower Type"
+            id="menu_projects_tower_type"
+            action="site_tower_type_action"
+            parent="project.menu_project_config"
+            sequence="25"/>
+
+        <record model="ir.actions.act_window" id="site_type_action">
+            <field name="name">Site Type</field>
+            <field name="res_model">project.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Site Type</p>
+            </field>
+        </record>
+
+        <menuitem name="Site Type"
+            id="menu_projects_site_type"
+            action="site_type_action"
+            parent="project.menu_project_config"
+            sequence="26"/>
+
+        <record model="ir.actions.act_window" id="site_region_action">
+            <field name="name">Site Region</field>
+            <field name="res_model">project.region</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Region</p>
+            </field>
+        </record>
+
+        <menuitem name="Site Region"
+            id="menu_projects_region"
+            action="site_region_action"
+            parent="project.menu_project_config"
+            sequence="27"/>
+
+        <record model="ir.actions.act_window" id="site_area_action">
+            <field name="name">Site Area</field>
+            <field name="res_model">project.area</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Site Area</p>
+            </field>
+        </record>
+
+        <menuitem name="Site Area"
+            id="menu_projects_area"
+            action="site_area_action"
+            parent="project.menu_project_config"
+            sequence="28"/>
+
+
+    </data>
+</odoo>

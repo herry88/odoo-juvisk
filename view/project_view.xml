@@ -1,73 +1,89 @@
 <odoo>
     <data>
-         <!--<record model="ir.ui.view" id="project_info_form_view">-->
-            <!--<field name="name">project.info</field>-->
-            <!--<field name="model">project.project</field>-->
-            <!--<field name="inherit_id" ref="project.edit_project"/>-->
-            <!--<field name="arch" type="xml">-->
-                 <!--<field name="user_id" position="before" >-->
-                    <!--<field name="equipment_id" />-->
-                 <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
-        <record id="project_inherit_form" model="ir.ui.view">
-            <field name="name">project.form.inherit.project</field>
+        <!--override project menu move up-->
+        <menuitem name="Project"
+            id="menu_project_list"
+            parent="project.menu_main_pm"
+            sequence="2"/>
+
+        <!--override search menu-->
+        <menuitem name="Project Monitoring"
+            id="project.menu_project_management"
+            parent="project.menu_main_pm"
+            sequence="3" groups="base.group_no_one,project.group_project_user"/>
+
+        <!--override task menu-->
+        <menuitem name="Milestone"
+            id="project.menu_action_view_task"
+            parent="project.menu_project_management" sequence="5"/>
+
+        <menuitem name="Project"
+            id="project.menu_projects_config"
+            parent="menu_project_list"
+            sequence="10"/>
+
+        <record model="ir.ui.view" id="project_info_form_view">
+            <field name="name">project.info</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[2]" position="after">
-                    <page string="Battery Rent">
-                        <group>
-                            <div class="oe_inline">
-                                <field name="project_ids">
-                                    <tree string="Project">
-                                        <field name="name"/>
-                                        <field name="equipment_id"/>
-                                        <field name="actual_start_date"/>
-                                        <field name="actual_done_date"/>
-                                        <field name="state"/>
-                                    </tree>
-                                    <form string="Battery Rent" >
-                                         <sheet>
-                                             <group>
-                                                 <group>
-                                                      <field name="equipment_id" domain="[('use_in_project', '=', 0)]"/> <!-- jika status confirmed maka tidak tampil  -->
-                                                 </group>
-                                             </group>
-                                                <notebook>
-                                                    <page string="Schedule">
-                                                        <form string="Battery Rent Line">
-                                                            <group>
-                                                                <group string="Plan Schedule">
-                                                                    <field name="plan_start_date"/>
-                                                                    <field name="plan_done_date"/>
-                                                                </group>
-                                                                <group string="Actual Schedule">
-                                                                    <field name="actual_start_date"/>
-                                                                    <field name="actual_done_date"/>
-
-                                                                </group>
-                                                            </group>
-                                                        </form>
-                                                    </page>
-                                                    <page string="Other Information">
-                                                        <field name="remark"/>
-                                                    </page>
-                                                </notebook>
-                                         </sheet>
-                                    </form>
-                                </field>
-                            </div>
-                        </group>
-                    </page>
-                </xpath>
-                <xpath expr="//form/sheet/notebook/page[1]/group/field[@name='partner_id']" position="after">
-                    <field name="site_id_customer"/>
-                    <field name="site_name_owner"/>
-                    <field name="area_project"/>
-                </xpath>
+                 <xpath expr="//page[1]" position="replace" >
+                     <page name="Information" string="Information">
+                         <group>
+                            <group>
+                                <field name="project_id" readonly="1"/>
+                                <field name="customer_name"/>
+                                <field name="partner_id" string="Customer"/>
+                                <field name="site_id"/>
+                                <field name="scope_id" />
+                                <field name="operator_id" />
+                            </group>
+                            <group>
+                                <field name="company_id" />
+                                <field name="user_id" string="Project Manager"
+                                        attrs="{'readonly':[('active','=',False)]}"/>
+                                <field name="target_rfi" />
+                                <field name="privacy_visibility" widget="radio"/>
+                                <field name="sequence" groups="base.group_no_one"/>
+                                <field name="resource_calendar_id" groups="base.group_no_one"/>
+                            </group>
+                         </group>
+                     </page>
+                 </xpath>
             </field>
         </record>
+
+        <record model="ir.actions.act_window" id="project_operator_action">
+            <field name="name">Operator</field>
+            <field name="res_model">project.operator</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Operator</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="project_scope_action">
+            <field name="name">Scope of Work</field>
+            <field name="res_model">project.scope</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Scope of Work</p>
+            </field>
+        </record>
+
+        <menuitem name="Scope of Work"
+            id="menu_projects_scope"
+            action="project_scope_action"
+            parent="project.menu_project_config"
+            sequence="20"/>
+
+        <menuitem name="Operator"
+            id="menu_projects_operator"
+            action="project_operator_action"
+            parent="project.menu_project_config"
+            sequence="23"/>
 
     </data>
 </odoo>

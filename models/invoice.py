@@ -7,10 +7,53 @@ from odoo.tools import amount_to_text_en
 
 class Invoice(models.Model):
     _inherit = 'account.invoice'
+
     sign_by = fields.Many2one('res.users', string='Sign by')
     sign_employee_id = fields.Many2one('hr.employee', compute='compute_employee_id')
     no_faktur = fields.Char(string='No Faktur')
     po_id = fields.Char(sting='PO Reference', compute='_compute_partner_ref')
+
+    validate_by = fields.Many2one('res.users', string='Manager Approve')
+    approve_by = fields.Many2one('res.users', string='Director Approve')
+    # add state approve_director
+    state = fields.Selection([
+                ('draft','Draft'),
+                ('proforma', 'Pro-forma'),
+                ('proforma2', 'Pro-forma'),
+                ('validate', 'Validated'),
+                ('approve', 'Approved'),
+                ('approve_director', 'Approved Director'),
+                ('open', 'Open'),
+                ('paid', 'Paid'),
+                ('cancel', 'Cancelled'),
+            ], string='Status', index=True, readonly=True, default='draft')
+
+
+    @api.multi
+    def invoice_validate(self):
+        for invoice in self:
+            # refuse to validate a vendor bill/refund if there already exists one with the same reference for the same partner,
+            # because it's probably a double encoding of the same bill/refund
+            if invoice.type in ('in_invoice', 'in_refund') and invoice.reference:
+                vstate = 'approve'
+                if self.search([('type', '=', invoice.type), ('reference', '=', invoice.reference),
+                                ('company_id', '=', invoice.company_id.id),
+                                ('commercial_partner_id', '=', invoice.commercial_partner_id.id),
+                                ('id', '!=', invoice.id)]):
+                    raise UserError(_(
+                        "Duplicated vendor reference detected. You probably encoded twice the same vendor bill/refund."))
+            else :
+                vstate = 'open'
+
+        return self.write({'state': vstate})
+
+    @api.multi
+    def action_invoice_approve(self):
+        self.write({'state': 'approve_director', 'validate_by': self.env.uid})
+
+    @api.multi
+    def action_invoice_approve_director(self):
+        self.write({'state': 'open', 'approve_by': self.env.uid})
 
     # deduction = fields.Monetary(string='Deduction')
 

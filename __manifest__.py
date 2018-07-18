@@ -6,7 +6,7 @@
         Battery System Rent Module""",
 
     'description': """
-        Odoo Juvisk yang ini
+        Battery System Rent Module
     """,
 
     'author': "easierware",
@@ -19,36 +19,37 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account', 'project', 'sale', 'purchase','purchase_requisition', 'work_order'],
+    'depends': ['base','account', 'project', 'sale', 'purchase','purchase_requisition', 'work_order','hr_maintenance'],
 
     # always loaded ,del company
     'data': [
         'report/purchase_report.xml',
         'report/purchase_request_report.xml',
-        'report/invoice_report.xml',
         'report/stock_picking_report.xml',
         'report/account_move.xml',
         'report/account_payment.xml',
 		'report/report_customer_invoice.xml',
-        'report/vendor_bills_report.xml',
         'report/report_deliveryslip.xml',
 		'report/report_stock_picking.xml',
 		'report/custom_css.xml',
+		'report/invoice_report.xml',
         'report/report_so.xml',
+		'report/vendor_bills_report.xml',
         'report/reinburse_report.xml',
-        #'report/picking_report_new.xml',
         'view/invoice.xml',
-        'view/equipment_view.xml',
-        'view/battery_rent.xml',
-        'view/project_view.xml',
+        'view/budget.xml',
+        'view/purchase_request.xml',
+        'view/site.xml',
 		'view/sale_view.xml',
+        'view/project_view.xml',
         'view/account_view.xml',
-        'view/reimburse_view.xml',
-		# 'wizard/account_report_general_ledger_view.xml',
-		# 'report/report_generalledger_xls.xml',
+		'view/batteryrent_view.xml',
+		'view/equipment_view.xml',
+		'view/reimburse_views.xml',
+        'data/project_data.xml',
+		'data/reimburse_data.xml',
         'data/juvisk_data.xml',
-        'data/reimburse_data.xml',
-        'data/equipment_data.xml'
+		'data/equipment_data.xml'
     ],
 	#'css' : ['static/src/css/invoice_report.css'],
     # only loaded in demonstration mode

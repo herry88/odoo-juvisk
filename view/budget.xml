@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="budget_plan_view">
+            <field name="name">budget.plan</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header" position="replace">
+                     <header>
+                        <button string="Confirm" name="action_budget_confirm" states="draft" type="object" class="oe_highlight" groups="project.group_project_user"/>
+                        <button string="Approve" name="action_budget_validate" states="confirm" type="object" class="oe_highlight" groups="project.group_project_manager"/>
+                        <button string="Approve Director" name="action_budget_approve" states="validate" type="object" class="oe_highlight" groups="contractor.group_project_director"/>
+                        <button string="Done" name="action_budget_done" states="approve" type="object" class="oe_highlight"/>
+                        <button string="Reset to Draft" name="action_budget_draft" states="cancel" type="object" />
+                        <button string="Cancel Budget" name="action_budget_cancel" states="confirm,validate,approve" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,approve"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='creating_user_id']" position="after">
+                    <field name="project_id" string="Project"/>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="scope_id" string="Scope of Work"/>
+                </xpath>
+                <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='theoritical_amount']" position="replace">
+                    <field name="residual"  sum="Residual" widget="monetary" />
+                </xpath>
+                <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='percentage']" position="replace">
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="budget_template_action">
+            <field name="name">Budget Template</field>
+            <field name="res_model">budget.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Budget Template</p>
+            </field>
+        </record>
+
+        <!--add sub budget menu-->
+        <menuitem name="Budget Monitoring"
+            id="menu_budget_monitoring"
+            parent="project.menu_main_pm"
+            sequence="4"/>
+
+        <menuitem name="Budget"
+            id="account_budget.menu_act_crossovered_budget_view"
+            parent="menu_budget_monitoring" sequence="6"/>
+
+        <menuitem name="Budget Template"
+            id="menu_projects_budget_template"
+            action="budget_template_action"
+            parent="project.menu_project_config"
+            sequence="21"/>
+
+        <!--add ananlytic account to sales order for generate invoice-->
+        <record model="ir.ui.view" id="sale_order_analytic_view">
+            <field name="name">sale.order.analytic</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="replace">
+                    <field name="analytic_account_id" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

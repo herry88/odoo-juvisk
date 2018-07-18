@@ -8,7 +8,7 @@ class EquipmentMaint(models.Model):
     equipment_project = fields.One2many('project.project','equipment_id',string='Equipment Project')
     use_in_project = fields.Boolean(string='Use In Project', default=False)
     in_use = fields.Char(string='Active', compute='_area_active')
-    project_area = fields.Char( string='Project Name', compute='_project_area')
+    project_name = fields.Char( string='Project Name', compute='_project_name')
     site_reference = fields.Char(string='Site Id Customer',compute='_project_id_data')
     site_owner_name = fields.Char(string='Site Name Owner',compute='_project_name_owner')
     site_area = fields.Char(string='Project Area',compute='_project_area_area')
@@ -16,25 +16,25 @@ class EquipmentMaint(models.Model):
     @api.one
     def _project_id_data(self):
         project_id_data = self.env['project.project'].search([('equipment_id','=',self.equipment_project.id)], limit=1)
-        self.site_reference = project_id_data and project_id_data.site_id_customer or false
+        self.site_reference = project_id_data and project_id_data.site_id_customer or False
         # print project_id_data
 
     @api.one
     def _project_name_owner(self):
         project_name_owner = self.env['project.project'].search([('equipment_id','=',self.equipment_project.id)], limit=1)
-        self.site_owner_name = project_name_owner and project_name_owner.site_name_owner or false
+        self.site_owner_name = project_name_owner and project_name_owner.site_name_owner or False
         # print project_id_data
 
     @api.one
     def _project_area_area(self):
         project_name_area = self.env['project.project'].search([('equipment_id','=',self.equipment_project.id)], limit=1)
-        self.site_area = project_name_area and project_name_area.area_project or false
+        self.site_area = project_name_area and project_name_area.area_project or False
         # print project_id_data
 
     @api.one
-    def _project_area(self):
+    def _project_name(self):
         project_area_battery = self.env['battery.rent'].search([('equipment_id','=',self.equipment_ids.id)])
-        self.project_area = project_area_battery and project_area_battery.project_id.name or false
+        self.project_name = project_area_battery and project_area_battery.project_id.name or False
         # for data in project_area_battery :
         #     self.project_area =  data.project_id.name
 
