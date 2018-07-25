@@ -70,11 +70,11 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="in_use"/>
                 </xpath>
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="project_name"/>
-                </xpath>
+                <!--<xpath expr="//field[@name='name']" position="after">-->
+                    <!--<field name="project_name"/>-->
+                <!--</xpath>-->
                 <xpath expr="//field[@name='serial_no']" position="after">
-                     <field name="site_reference"/>
+                     <field name="site_id"/>
                      <field name="site_area"/>
                 </xpath>
                 <xpath expr="//field[@name='category_id']" position="after">

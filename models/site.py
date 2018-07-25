@@ -2,6 +2,7 @@ from odoo import models, fields, api
 
 class ProjectSite(models.Model):
      _name = 'project.site'
+     _inherit = ['mail.thread']
 
      site_id = fields.Char(string="Site ID", readonly=True)
      name = fields.Char(string="Site Name", require=True)
@@ -11,6 +12,7 @@ class ProjectSite(models.Model):
      area_id = fields.Many2one('project.area', string="Area")
      type_id = fields.Many2one('project.type', string="Type")
      address = fields.Text()
+     equipment_id = fields.Many2one('maintenance.equipment', string="Equipment Name")
 
      @api.model
      def create(self, vals):
@@ -31,6 +33,7 @@ class ProjectArea(models.Model):
      _name = 'project.area'
 
      name = fields.Char(string="Area", require=True)
+     equipment_id = fields.Many2one('maintenance.equipment',string="equipment area")
 
 class ProjectType(models.Model):
      _name = 'project.type'

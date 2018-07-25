@@ -6,17 +6,19 @@ class EquipmentMaint(models.Model):
 
     equipment_ids = fields.One2many('battery.rent','equipment_id', string='Equipment Rent')
     equipment_project = fields.One2many('project.project','equipment_id',string='Equipment Project')
+    equipment_site = fields.One2many('project.site','equipment_id', string='Equipment Site')
+    equipment_area = fields.One2many('project.area','equipment_id', string='Equipment Area')
     use_in_project = fields.Boolean(string='Use In Project', default=False)
     in_use = fields.Char(string='Active', compute='_area_active')
     project_name = fields.Char( string='Project Name', compute='_project_name')
-    site_reference = fields.Char(string='Site Id Customer',compute='_project_id_data')
+    site_id = fields.Char(string='Site Name',compute='_project_id_data')
     site_owner_name = fields.Char(string='Site Name Owner',compute='_project_name_owner')
     site_area = fields.Char(string='Project Area',compute='_project_area_area')
 
     @api.one
     def _project_id_data(self):
-        project_id_data = self.env['project.project'].search([('equipment_id','=',self.equipment_project.id)], limit=1)
-        self.site_reference = project_id_data and project_id_data.site_id_customer or False
+        project_id_data = self.env['project.project'].search([('equipment_id','=',self.equipment_site.id)], limit=1)
+        self.site_id = project_id_data and project_id_data.site_id.name or False
         # print project_id_data
 
     @api.one
@@ -27,22 +29,20 @@ class EquipmentMaint(models.Model):
 
     @api.one
     def _project_area_area(self):
-        project_name_area = self.env['project.project'].search([('equipment_id','=',self.equipment_project.id)], limit=1)
-        self.site_area = project_name_area and project_name_area.area_project or False
+        project_name_area = self.env['project.area'].search([('equipment_id','=',self.equipment_area.id)], limit=1)
+        self.site_area = project_name_area and project_name_area.name or False
         # print project_id_data
 
     @api.one
     def _project_name(self):
         project_area_battery = self.env['battery.rent'].search([('equipment_id','=',self.equipment_ids.id)])
-        self.project_name = project_area_battery and project_area_battery.project_id.name or False
+        self.project_name = project_area_battery and project_area_battery.name or False
         # for data in project_area_battery :
         #     self.project_area =  data.project_id.name
 
-
-
     @api.one
     def _area_active(self):
-        area_project = self.env['battery.rent'].search([('state','=','confirmed'),('equipment_id','=',self.equipment_ids.id or [])])
+        area_project = self.env['battery.rent'].search([('state','=','confirmed'),('equipment_id','=',self.equipment_ids.ids or [])])
 
         for data in area_project :
             if data :
@@ -50,11 +50,13 @@ class EquipmentMaint(models.Model):
             else :
                self.in_use = 'Deactive'
 
+            print area_project
+
 
 
 class BatteryRent(models.Model):
     _name = "battery.rent"
-
+    _inherit = ['mail.thread']
 
     project_id = fields.Many2one('project.project',string='Project Name')
     equipment_id = fields.Many2one('maintenance.equipment',string='Equipment Name')
@@ -69,7 +71,7 @@ class BatteryRent(models.Model):
         ('draft', "Draft"),
         ('confirmed', "Confirmed"),
         ('done', "Done"),
-    ], default='draft')
+    ], string='Status', readonly=True, copy=False, default='draft', track_visibility='onchange')
 
     @api.multi
     def action_draft(self):

@@ -33,7 +33,7 @@ class ProjectEquipment(models.Model):
             vals['project_id'] = vcomp +"-"+tseq.sequence_id.next_by_id()
             vals['name'] = vals['project_id'] +" - "+ vals['name']
 
-        return super(Project, self).create(vals)
+        return super(ProjectEquipment, self).create(vals)
 
     @api.onchange('site_id','scope_id')
     def _onchange_name(self):

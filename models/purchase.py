@@ -10,7 +10,8 @@ class PurchaseOrder(models.Model):
     def amount_to_text(self, amount, currency):
         convert_amount_in_words = amount_to_text_en.amount_to_text(amount, lang='en', currency='')
         convert_amount_in_words = convert_amount_in_words.replace(' and Zero Cent', ' ')
-        convert_amount_in_words = convert_amount_in_words.replace('Rupiah')
+        convert_amount_in_words = convert_amount_in_words.replace(' and Zero', ' ')
+        convert_amount_in_words = convert_amount_in_words.replace('Rupiah','Rupiah')
         return convert_amount_in_words
 
 class PurchaseLine(models.Model):

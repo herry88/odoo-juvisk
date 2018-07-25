@@ -53,6 +53,79 @@
             </field>
         </record>
 
+
+        <record model="ir.ui.view" id="project_inherit_tree">
+            <field name="name">project.tree.inherit.project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="customer_name"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="site_id"/>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="operator_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_inherit_form">
+            <field name="name">project.form.inherit.project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[2]" position="after">
+                    <page string="Battery Rent">
+                        <group>
+                            <div class="oe_inline">
+                                <field name="project_ids">
+                                        <tree string="Project">
+                                            <field name="name"/>
+                                            <field name="equipment_id"/>
+                                            <field name="actual_start_date"/>
+                                            <field name="actual_done_date"/>
+                                            <field name="state"/>
+                                        </tree>
+                                        <form string="Battery Rent" >
+                                             <sheet>
+                                                 <group>
+                                                     <group>
+                                                          <field name="equipment_id" domain="[('use_in_project', '=', 0)]"/> <!-- jika status confirmed maka tidak tampil  -->
+                                                     </group>
+                                                 </group>
+                                                    <notebook>
+                                                        <page string="Schedule">
+                                                            <form string="Battery Rent Line">
+                                                                <group>
+                                                                    <group string="Plan Schedule">
+                                                                        <field name="plan_start_date"/>
+                                                                        <field name="plan_done_date"/>
+                                                                    </group>
+                                                                    <group string="Actual Schedule">
+                                                                        <field name="actual_start_date"/>
+                                                                        <field name="actual_done_date"/>
+
+                                                                    </group>
+                                                                </group>
+                                                            </form>
+                                                        </page>
+                                                        <page string="Other Information">
+                                                            <field name="remark"/>
+                                                        </page>
+                                                    </notebook>
+                                             </sheet>
+                                        </form>
+                                </field>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="project_operator_action">
             <field name="name">Operator</field>
             <field name="res_model">project.operator</field>

@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account', 'project', 'sale', 'purchase','purchase_requisition', 'work_order','hr_maintenance'],
+    'depends': ['base','mail','account', 'project', 'sale', 'purchase','purchase_requisition', 'work_order','hr_maintenance'],
 
     # always loaded ,del company
     'data': [
